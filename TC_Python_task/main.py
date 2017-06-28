@@ -1,19 +1,26 @@
 #!/usr/bin/env python
 
-import os.path
+"""Application reads packets from the input file and
+generates output files with packets seperated by addresantss,
+according to task"""
 
+"""Main function return one of folowing code: 
+0 if application finished success, otherwise return -1"""
 EXIT_SUCCESS = 0
 EXIT_FAILURE = -1
 
+"""map that contain addresantss and their packets"""
 contacts = {'Ivan': [], 'Dmythro': [], 'Ostap': [], 'Lesya': []}
 packets = []
 
-
+"""Function check if file with packets exits
+If exist - return true, else return false"""
 def check_exist(
         file_path):
     return os.path.isfile(file_path)
 
 
+"""Read packets from input file"""
 def get_packets(file_name):
     with open(file_name, "r") as file_obj:
         packets = file_obj.readlines()
@@ -33,7 +40,7 @@ def parse_file(
             else:
                 contacts['Ostap'].append(line)
 
-
+"""Write parsed packets to file"""
 def write(file_name, packet):
     with open(file_name, "w+") as file_obj:
         for line in packet:
