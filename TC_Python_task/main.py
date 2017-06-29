@@ -4,28 +4,39 @@
 generates output files with packets seperated by addresantss,
 according to task"""
 
-"""Main function return one of folowing code: 
-0 if application finished success, otherwise return -1"""
+from sys import argv
+
+# Main function return one of folowing code:
+# 0 if application finished success, otherwise return -1
 EXIT_SUCCESS = 0
 EXIT_FAILURE = -1
 
-"""map that contain addresantss and their packets"""
+# pass file name to main function
+NUM_INPUT_PARAMS = 2
+
+# map that contain addresantss and their packets"""
 contacts = {'Ivan': [], 'Dmythro': [], 'Ostap': [], 'Lesya': []}
 packets = []
 
-"""Function check if file with packets exits
-If exist - return true, else return false"""
+
+# Check if count of input params is less then 2
+def check_input_params():
+    return len(argv) < NUM_INPUT_PARAMS
+
+
+# Function check if file with packets exits
+# If exist - return true, else return false
 def check_exist(
         file_path):
     return os.path.isfile(file_path)
 
 
-"""Read packets from input file"""
+# Read packets from input file
 def get_packets(file_name):
     with open(file_name, "r") as file_obj:
         packets = file_obj.readlines()
 
-
+# parse packet to addresantss
 def parse_file(
         packets):
 
@@ -40,19 +51,25 @@ def parse_file(
             else:
                 contacts['Ostap'].append(line)
 
-"""Write parsed packets to file"""
+# Write parsed packets to file
 def write(file_name, packet):
     with open(file_name, "w+") as file_obj:
         for line in packet:
+            line = line.rstrip("\n")
+            if line != "\n":
             file_obj.write(line)
 
 
 def main():
     main_return_code = EXIT_FAILURE
 
-    file_name = "message.txt"
+    if check_input_params():
+        file_name = argv[1]
+    else:
+        return EXIT_FAILURE
 
     if check_exist(file_name):
+        # read packets from file
         get_packets(file_name)
         parse_file(packets)
         write_files_name = contacts.keys()
