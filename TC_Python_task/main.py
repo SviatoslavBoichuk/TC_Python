@@ -33,34 +33,37 @@ def check_exist(
 
 
 # Read packets from input file
-def get_packets(file_name, packs):
+def get_packets(file_name):
+    global packets
     with open(file_name, "r") as file_obj:
-        packs = file_obj.readlines()
+        packets = [l.rstrip('\n') for l in file_obj.readlines() if l != '\n']
 
 
 # parse packet to addresantss
 def parse_file(
         packets):
 
+        flag = False
+
         for line in packets:
             if line.split()[-1] == 'end':
+                flag = True
                 contacts['Lesya'].append(line)
-
             if len(line) % 2 == 0:
+                flag = True
                 contacts['Ivan'].append(line)
-            elif len(line) % 2 == 1 and line[0].isupper():
+            if len(line) % 2 == 1 and line[0].isupper():
+                flag = True
                 contacts['Dmythro'].append(line)
-            else:
+            if not flag:
                 contacts['Ostap'].append(line)
+            flag = False
 
 
 # Write parsed packets to file
 def write(file_name, packet):
     with open(file_name, "w+") as file_obj:
-        for line in packet:
-            line = line.rstrip("\n")
-            if line != "\n":
-                file_obj.write(line)
+        file_obj.writelines([p+'\n' for p in packet])
 
 
 def main():
@@ -74,7 +77,7 @@ def main():
 
     if check_exist(file_name):
         # read packets from file
-        get_packets(file_name, packets)
+        get_packets(file_name)
         parse_file(packets)
         write_files_name = contacts.keys()
 
