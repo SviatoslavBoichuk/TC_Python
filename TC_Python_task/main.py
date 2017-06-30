@@ -43,6 +43,8 @@ def get_packets(file_name):
 def parse_file(
         packets):
 
+        # if packet is no Ivan, or Dmythro or Lesya, then
+        # this packet if for Ostap
         flag = False
 
         for line in packets:
@@ -69,18 +71,22 @@ def write(file_name, packet):
 def main():
     main_return_code = EXIT_FAILURE
 
+    # if user didn't pass
+    # file name to programm, we stop execute
     if check_input_params():
         file_name = argv[1]
     else:
-        print ("error")
+        print("Missing param: [file_name], program close")
         return EXIT_FAILURE
 
     if check_exist(file_name):
         # read packets from file
         get_packets(file_name)
+        # parse packets
         parse_file(packets)
-        write_files_name = contacts.keys()
 
+        # write parsed packets to dest. files
+        write_files_name = contacts.keys()
         for out_file_name in write_files_name:
             write(out_file_name+'.txt', contacts[out_file_name])
         main_return_code = EXIT_SUCCESS
