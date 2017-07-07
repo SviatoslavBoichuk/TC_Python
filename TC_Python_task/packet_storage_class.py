@@ -53,7 +53,7 @@ class PacketStorage:
                             packet_load.decode(ENCODE) == msg:
                 print('Sent packet \'{}\' to {}'.format(msg, self.__addressant_name))
             else:
-                print('Not sent packet \'{}\' to {}'.format(msg, self.__addressant_name))
+                print('Something went wrong...')
 
     def send_packets(self):
         """Send all packets"""
@@ -69,7 +69,7 @@ class PacketStorage:
                 thread.start()
 
                 # freez main thread to 0.1s
-                # to 
+                # to
                 time.sleep(0.1)
 
                 # send packet

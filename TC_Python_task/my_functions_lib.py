@@ -15,6 +15,10 @@ NEW_LINE_SYMBOL = '\n'
 ADDRESSANTS_IP_FILE = 'addressants.json'
 NUM_INPUT_PARAMS = 2
 
+DMYTRO_INDEX = 2
+LESYA_INDEX = 3
+IVAN_INDEX = 0
+OSTAP_INDEX = 1
 
 def check_input_params():
     """Check if count of input params is less then 2"""
@@ -52,15 +56,15 @@ def parse_file(
         for line in packets:
             if re.match('^.*?\s{}$'.format(END_STR), line):
                 flag = True
-                contacts[3].add_packet(line)
+                contacts[LESYA_INDEX].add_packet(line)
             if re.match('^([^\n]{2})+$', line):
                 flag = True
-                contacts[0].add_packet(line)
+                contacts[IVAN_INDEX].add_packet(line)
             if re.match('^[A-Z]+.*?$', line) and not re.match('^([^\n]{2})+$', line):
                 flag = True
-                contacts[2].add_packet(line)
+                contacts[DMYTRO_INDEX].add_packet(line)
             if not flag:
-                contacts[1].add_packet(line)
+                contacts[OSTAP_INDEX].add_packet(line)
             flag = False
 
 
